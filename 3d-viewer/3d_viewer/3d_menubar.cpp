@@ -145,8 +145,63 @@ void EDA_3D_VIEWER::CreateMenuBar()
     prefsMenu->AppendSeparator();
 
     AddMenuItem( prefsMenu, ID_TOOL_SET_VISIBLE_ITEMS,
-                 _( "Display Options" ),
+                 _( "Display Options Dialog" ),
                  KiBitmap( read_setup_xpm ) );
+
+    wxMenu * displayOptionsMenu = new wxMenu;
+    AddMenuItem( prefsMenu, displayOptionsMenu, ID_TOOL_SET_VISIBLE_ITEMS,
+                 _( "Display Options" ), KiBitmap( read_setup_xpm ) );
+    wxMenu* displayOptionsRender = new wxMenu;
+    AddMenuItem( displayOptionsMenu, displayOptionsRender, ID_TOOL_SET_VISIBLE_ITEMS_RENDER,
+                 _( "Render Options" ), KiBitmap(  display_options_xpm ) );
+    AddMenuItem( displayOptionsRender, ID_TOOL_SET_VISIBLE_ITEMS_RENDER_REALISTIC,
+                 _( "Realistic Mode" ),
+                 KiBitmap( use_3D_copper_thickness_xpm ), wxITEM_CHECK );
+    AddMenuItem( displayOptionsRender, ID_TOOL_SET_VISIBLE_ITEMS_RENDER_BOARD_BODY,
+                 _( "Show Board Body" ),
+                 KiBitmap( ortho_xpm ), wxITEM_CHECK );
+    AddMenuItem( displayOptionsRender, ID_TOOL_SET_VISIBLE_ITEMS_RENDER_FILLED_AREAS,
+                 _( "Show Filled Areas In Zones" ),
+                 KiBitmap( add_zone_xpm ), wxITEM_CHECK );
+
+    wxMenu* displayOptions3DModels = new wxMenu;
+    AddMenuItem( displayOptionsMenu, displayOptions3DModels, ID_TOOL_SET_VISIBLE_ITEMS_3DMODELS,
+                 _( "3D Model Visibility" ), KiBitmap( shape_3d_xpm ) );
+    AddMenuItem( displayOptions3DModels, ID_TOOL_SET_VISIBLE_ITEMS_3DMODELS_TH,
+                 _( "Show 3D Through Hole Models" ),
+                 KiBitmap( shape_3d_xpm ), wxITEM_CHECK );
+    AddMenuItem( displayOptions3DModels, ID_TOOL_SET_VISIBLE_ITEMS_3DMODELS_SMD,
+                 _( "Show 3D SMD Models" ),
+                 KiBitmap( shape_3d_xpm ), wxITEM_CHECK );
+    AddMenuItem( displayOptions3DModels, ID_TOOL_SET_VISIBLE_ITEMS_3DMODELS_VIRTUAL,
+                 _( "Show 3D Virtual Models" ),
+                 KiBitmap( shape_3d_xpm ), wxITEM_CHECK );
+
+    wxMenu* displayOptionsLayers = new wxMenu;
+    AddMenuItem( displayOptionsMenu, displayOptionsLayers, ID_TOOL_SET_VISIBLE_ITEMS_LAYERS,
+                 _( "Board Layers" ), KiBitmap( layers_manager_xpm ) );
+    AddMenuItem( displayOptionsLayers, ID_TOOL_SET_VISIBLE_ITEMS_LAYERS_SILK,
+                 _( "Show Silkscreen Layers" ),
+                 KiBitmap( text_xpm ), wxITEM_CHECK );
+    AddMenuItem( displayOptionsLayers, ID_TOOL_SET_VISIBLE_ITEMS_LAYERS_MASK,
+                 _( "Show Solder Mask Layers" ),
+                 KiBitmap( pads_mask_layers_xpm ), wxITEM_CHECK );
+    AddMenuItem( displayOptionsLayers, ID_TOOL_SET_VISIBLE_ITEMS_LAYERS_PASTE,
+                 _( "Show Solder Paste Layers" ),
+                 KiBitmap( pads_mask_layers_xpm ), wxITEM_CHECK );
+    AddMenuItem( displayOptionsLayers, ID_TOOL_SET_VISIBLE_ITEMS_LAYERS_ADHESIVE,
+                 _( "Show Adhesive Layers" ),
+                 KiBitmap( tools_xpm ), wxITEM_CHECK );
+
+    wxMenu* displayOptionsUser = new wxMenu;
+    AddMenuItem( displayOptionsMenu, displayOptionsUser, ID_TOOL_SET_VISIBLE_ITEMS_USER,
+                 _( "User Layers (not shown in realistic mode)" ), KiBitmap( layers_manager_xpm ) );
+    AddMenuItem( displayOptionsUser, ID_TOOL_SET_VISIBLE_ITEMS_USER_COMMENTS,
+                 _( "Show Comments and Drawings Layers" ),
+                 KiBitmap( editor_xpm ), wxITEM_CHECK );
+    AddMenuItem( displayOptionsUser, ID_TOOL_SET_VISIBLE_ITEMS_USER_ECO,
+                 _( "Show ECO Layers" ),
+                 KiBitmap( editor_xpm ), wxITEM_CHECK );
 
     wxMenu * renderEngineList = new wxMenu;
     AddMenuItem( prefsMenu, renderEngineList, ID_MENU3D_ENGINE,
@@ -372,6 +427,45 @@ void EDA_3D_VIEWER::SetMenuBarOptionsState()
     item->Check( m_settings.GetFlag( FL_MOUSEWHEEL_PANNING ) );
 
 
+    // Visibility
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_RENDER_REALISTIC );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_RENDER_REALISTIC ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_RENDER_BOARD_BODY );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_RENDER_BOARD_BODY ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_RENDER_FILLED_AREAS );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_RENDER_FILLED_AREAS ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_3DMODELS_TH );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_3DMODELS_TH ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_3DMODELS_SMD );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_3DMODELS_SMD ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_3DMODELS_VIRTUAL );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_3DMODELS_VIRTUAL ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_LAYERS_SILK );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_LAYERS_SILK ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_LAYERS_MASK );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_LAYERS_MASK ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_LAYERS_PASTE );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_LAYERS_PASTE ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_LAYERS_ADHESIVE );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_LAYERS_ADHESIVE ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_USER_COMMENTS );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_USER_COMMENTS ) );
+
+    item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_USER_ECO );
+    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_USER_ECO ) );
+
+
+
     item = menuBar->FindItem( ID_MENU3D_ENGINE_OPENGL_LEGACY );
     item->Check( m_settings.RenderEngineGet() == RENDER_ENGINE_OPENGL_LEGACY );
 
@@ -386,6 +480,7 @@ void EDA_3D_VIEWER::SetMenuBarOptionsState()
 
     item = menuBar->FindItem( ID_MENU3D_FL_RENDER_MATERIAL_MODE_CAD_MODE );
     item->Check( m_settings.MaterialModeGet() == MATERIAL_MODE_CAD_MODE );
+
 
     // OpenGL
     item = menuBar->FindItem( ID_MENU3D_FL_OPENGL_RENDER_COPPER_THICKNESS );
