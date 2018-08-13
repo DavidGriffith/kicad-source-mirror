@@ -3519,7 +3519,7 @@
                         <property name="minimum_size"></property>
                         <property name="name">m_sdbSizer</property>
                         <property name="permission">protected</property>
-                        <event name="OnApplyButtonClick"></event>
+                        <event name="OnApplyButtonClick">OnApplyClick</event>
                         <event name="OnCancelButtonClick"></event>
                         <event name="OnContextHelpButtonClick"></event>
                         <event name="OnHelpButtonClick"></event>

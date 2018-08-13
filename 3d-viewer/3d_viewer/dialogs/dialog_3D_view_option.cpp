@@ -46,6 +46,14 @@ private:
 };
 
 
+void EDA_3D_VIEWER::OnApplyClick( wxCommandEvent& event )
+{
+        SetMenuBarOptionsState();
+
+        NewDisplay( true );
+}
+
+
 void EDA_3D_VIEWER::Install3DViewOptionDialog( wxCommandEvent& event )
 {
     DIALOG_3D_VIEW_OPTIONS dlg( this );
