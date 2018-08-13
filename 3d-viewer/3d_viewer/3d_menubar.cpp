@@ -429,7 +429,8 @@ void EDA_3D_VIEWER::SetMenuBarOptionsState()
 
     // Visibility
     item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_RENDER_REALISTIC );
-    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_RENDER_REALISTIC ) );
+//    item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_RENDER_REALISTIC ) );
+    item->Check( m_settings.GetFlag( FL_USE_REALISTIC_MODE ) );
 
     item = menuBar->FindItem( ID_TOOL_SET_VISIBLE_ITEMS_RENDER_BOARD_BODY );
     item->Check( m_settings.GetFlag( FL_TOOL_SET_VISIBLE_ITEMS_RENDER_BOARD_BODY ) );

@@ -381,9 +381,18 @@ void EDA_3D_VIEWER::Process_Special_Functions( wxCommandEvent &event )
         Set3DBoardBodyColorFromUser();
         break;
 
+// FIXME This toggles the realistic mode checkbox
     case ID_MENU3D_MOUSEWHEEL_PANNING:
+	printf("FOOOBARR\n\n");
+	m_settings.SetFlag( FL_USE_REALISTIC_MODE, isChecked );
         m_settings.SetFlag( FL_MOUSEWHEEL_PANNING, isChecked );
         break;
+
+// FIXME But not here...
+    case ID_TOOL_SET_VISIBLE_ITEMS_RENDER_REALISTIC:
+        m_settings.SetFlag( FL_USE_REALISTIC_MODE, isChecked );
+        break;
+
 
     case ID_MENU3D_REALISTIC_MODE:
         m_settings.SetFlag( FL_USE_REALISTIC_MODE, isChecked );
